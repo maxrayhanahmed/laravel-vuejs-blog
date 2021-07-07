@@ -118,6 +118,7 @@
                 this.form.post('/add-post').then((response)=>{
                 toastr.success('Post Add Successfully');
                 this.resetForm();
+                //console.log(response);
                });
            },
 

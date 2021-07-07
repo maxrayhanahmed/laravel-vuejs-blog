@@ -41,19 +41,31 @@ class PostController extends Controller
         //return $request;
 
         $request->validate([
-            'title'=> 'required|unique:posts|max:255',
-            'category_id'=> 'required',
-            'content'=> 'required',
-            //'thumbnail'=> 'required',
-            'status'=> 'required',
+            // 'title'=> 'required|unique:posts|max:255',
+            // 'category_id'=> 'required',
+            // 'content'=> 'required',
+            // //'thumbnail'=> 'required',
+            // 'status'=> 'required',
         ]);
+         //$request->thumbnail;
+        $str = explode(';', $request->thumbnail);
+
+        $str2 = explode('/', $str[0]);
+        $extn = end($str2);
+        $slug = slugify($request->title);
+        //$path = 'admin/media/images/';
+        $thumbnail = $slug.'.'.$extn;
+       // $thumbnail = $path.$thum_name;
+
+
+
          $post = new Post();
          $post->user_id =   auth()->user()->id;
          $post->category_id =   $request->category_id;
          $post->title       =   $request->title;
-         $post->slug        =   slugify($request->title);
+         $post->slug        =   $slug;
          $post->content     =   $request->content;
-         $post->thumbnail   =   "thumbnail";
+         $post->thumbnail   =   $thumbnail;
          $post->status      =   $request->status;
          //$post->save();
          $success = $post->save() ? true : false;

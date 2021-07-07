@@ -4883,7 +4883,8 @@ __webpack_require__.r(__webpack_exports__);
       this.form.post('/add-post').then(function (response) {
         toastr.success('Post Add Successfully');
 
-        _this.resetForm();
+        _this.resetForm(); //console.log(response);
+
       });
     },
     imageChange: function imageChange(event) {
