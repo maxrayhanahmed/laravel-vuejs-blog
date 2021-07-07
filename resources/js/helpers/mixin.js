@@ -16,7 +16,8 @@ Vue.mixin({
                 })
         },
         slugify() {
-            return this.form.title
+           // return this.form.title
+            return "this is test"
                 .toString()
                 .trim()
                 .toLowerCase()

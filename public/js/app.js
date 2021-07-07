@@ -5318,7 +5318,8 @@ vue__WEBPACK_IMPORTED_MODULE_1__.default.mixin({
       });
     },
     slugify: function slugify() {
-      return this.form.title.toString().trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w\-]+/g, "").replace(/\-\-+/g, "-").replace(/^-+/, "").replace(/-+$/, "");
+      // return this.form.title
+      return "this is test".toString().trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w\-]+/g, "").replace(/\-\-+/g, "-").replace(/^-+/, "").replace(/-+$/, "");
     }
   }
 });
