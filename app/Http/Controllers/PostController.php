@@ -41,11 +41,11 @@ class PostController extends Controller
         //return $request;
 
         $request->validate([
-            // 'title'=> 'required|unique:posts|max:255',
-            // 'category_id'=> 'required',
-            // 'content'=> 'required',
-            // //'thumbnail'=> 'required',
-            // 'status'=> 'required',
+            'title'=> 'required|unique:posts|max:255',
+            'category_id'=> 'required',
+            'content'=> 'required',
+            'thumbnail'=> 'required',
+            'status'=> 'required',
         ]);
          //$request->thumbnail;
         $str = explode(';', $request->thumbnail);
@@ -67,7 +67,7 @@ class PostController extends Controller
          $post->content     =   $request->content;
          $post->thumbnail   =   $thumbnail;
          $post->status      =   $request->status;
-         //$post->save();
+         $post->save();
          $success = $post->save() ? true : false;
          return response()->json(['success'=>$success]);
 
