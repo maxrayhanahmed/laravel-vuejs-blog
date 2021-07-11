@@ -25,7 +25,7 @@ class PostSeeder extends Seeder
                 'title' => $faker->sentence,
                 'content' => $faker->paragraph,
                 'slug' => $faker->slug,
-                'thumbnail' => $faker->image('public/admin/media/images/users', 400, 300, null, false),
+                'thumbnail' => $faker->image('public/admin/media/images/post', 400, 300, null, false),
                 'content' => $faker->paragraph,
                 'status' =>rand(0, 1),
             ]);

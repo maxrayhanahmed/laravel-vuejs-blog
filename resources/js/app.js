@@ -99,7 +99,7 @@ import {routes} from './routes/routes';
 // keep it simple for now.
 const router = new VueRouter({
   routes,
- // mode:"history"
+  //mode:"history"
 })
 
 

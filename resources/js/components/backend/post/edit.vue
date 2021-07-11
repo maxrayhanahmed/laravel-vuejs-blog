@@ -1,10 +1,10 @@
 <template>
      <div class="row justify-content-center mt-5">
         <div class="col-md-10">
-            <form @submit.prevent="addPost" id="postForm" class="form-horizontal">
+            <form @submit.prevent="updatePost" id="postForm" class="form-horizontal">
                 <div class="card">
                     <div class="card-header">
-                    <h3 class="card-title">Add Post</h3>
+                    <h3 class="card-title">Update Post</h3>
                       <router-link to="/post-list" class="btn btn-success float-right"> Post List</router-link>
                     </div>
                     <div class="card-body">
@@ -47,7 +47,7 @@
                         <div class="col-sm-10">
                             <input @change="imageChange" type="file" name="thumbnail" class="" id="thumbnail">
                          <HasError :form="form" field="thumbnail" />
-                         <img style="width:120px" class="float-center" :src="form.thumbnail">
+                         <img style="width:120px" class="float-center" :src="'admin/media/images/post/'+form.thumbnail">
                         </div>
                     </div>
 
@@ -66,7 +66,7 @@
 
                     </div>
                     <div class="card-footer">
-                        <button class="btn btn-success" type="submit">Save</button>
+                        <button class="btn btn-success" type="submit">Update</button>
                         <button class="btn btn-default float-right" type="reset" @click="resetForm">Cancel</button>
 
                     </div>
@@ -88,7 +88,9 @@
         data: () => ({
             form: new Form({
 
+                id: "",
                 title: "",
+                slug: "",
                 category_id: "",
                 content: "",
                 thumbnail: null,
@@ -103,6 +105,7 @@
         }),
          mounted(){
             this.$store.dispatch('getActiveCategories');
+            this.editPost();
             },
 
             computed:{
@@ -114,10 +117,22 @@
 
         methods: {
 
-           addPost(){
-                this.form.post('/add-post').then((response)=>{
-                toastr.success('Post Add Successfully');
-                this.resetForm();
+           editPost(){
+
+                axios.get("/edit-post/"+ this.$route.params.slug).then((response) => {
+                    this.form.fill(response.data);
+                 }).catch((error)=>{
+
+                 })
+           },
+           updatePost(){
+
+               let fields = this;
+               this.form.post('/update-post').then(function(response){
+
+                toastr.success('Post Update Successfully');
+                fields.$router.push('/post-list');
+
                });
            },
 
@@ -129,6 +144,7 @@
                }
                reader.readAsDataURL(file);
            },
+
 
            resetForm(){
                 this.form.title = "";

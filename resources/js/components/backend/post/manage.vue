@@ -31,7 +31,7 @@
                         <td>{{post.title | readMore(20,"....")}}</td>
                         <td>{{post.content | readMore(20,"....")}}</td>
                         <td>{{post.category.name}}</td>
-                        <td><img width="60px" :src="'/admin/media/images/users/' + post.thumbnail" alt=""></td>
+                        <td><img width="60px" :src="'admin/media/images/post/'+post.thumbnail" :alt="post.title"></td>
                         <td><span class="p-1"  :class="statusButtonColor(post.status)">{{status(post.status)}}</span></td>
                         <td>{{post.created_at | time}}</td>
                         <td>{{post.user.name}}</td>
@@ -43,7 +43,7 @@
                         </td>
                       </tr>
                        <tr v-if="!isNoData()">
-                          <td colspan="6">
+                          <td colspan="10">
 
                         <div class="dropdown">
                         <button :disabled="!isSelect" class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

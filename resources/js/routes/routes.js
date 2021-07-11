@@ -6,6 +6,8 @@ import categoryedit  from "../components/backend/category/edit.vue";
 
 import postadd  from "../components/backend/post/add.vue";
 import postlist  from "../components/backend/post/manage.vue";
+import postedit  from "../components/backend/post/edit.vue";
+
 
 export const routes = [
  { path: '/home', component: home },
@@ -14,5 +16,6 @@ export const routes = [
  { path: '/edit-category/:slug', component: categoryedit },
 
  { path: '/add-post', component: postadd },
- { path: '/post-list', component: postlist }
+ { path: '/post-list', component: postlist },
+ { path: '/edit-post/:slug', component: postedit }
    ]

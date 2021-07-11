@@ -4,9 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\models\Post;
+use Image;
+
+use function PHPUnit\Framework\fileExists;
 
 class PostController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -38,9 +42,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //return $request;
-
-        $request->validate([
+         $request->validate([
             'title'=> 'required|unique:posts|max:255',
             'category_id'=> 'required',
             'content'=> 'required',
@@ -53,11 +55,8 @@ class PostController extends Controller
         $str2 = explode('/', $str[0]);
         $extn = end($str2);
         $slug = slugify($request->title);
-        //$path = 'admin/media/images/';
+        $path = 'admin/media/images/post/';
         $thumbnail = $slug.'.'.$extn;
-       // $thumbnail = $path.$thum_name;
-
-
 
          $post = new Post();
          $post->user_id =   auth()->user()->id;
@@ -67,9 +66,12 @@ class PostController extends Controller
          $post->content     =   $request->content;
          $post->thumbnail   =   $thumbnail;
          $post->status      =   $request->status;
-         $post->save();
-         $success = $post->save() ? true : false;
-         return response()->json(['success'=>$success]);
+         $inserted = $post->save();
+         if($inserted){
+            Image::make($request->thumbnail)->resize(500, 350)->save(public_path($path.$thumbnail));
+         }
+        $success = $inserted ? true : false;
+        return response()->json(['success'=>$success]);
 
 
     }
@@ -91,9 +93,11 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($slug)
     {
-        //
+
+        $category = Post::where('slug', $slug)->first();
+        return response()->json($category, 200,);
     }
 
     /**
@@ -103,10 +107,75 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+
+
+        $request->validate([
+            'title'=> 'required|unique:posts,title,'.$request->id,
+            'category_id'=> 'required',
+            'content'=> 'required',
+            'thumbnail'=> 'required',
+            'status'=> 'required',
+        ]);
+        $post = Post::where('slug', $request->slug)->first();
+
+        $slug = slugify($request->title);
+        $path = 'admin/media/images/post/';
+        if($post->thumbnail == $request->thumbnail && $post->title == $request->title){
+            $post->thumbnail   =   $request->thumbnail;
+         }elseif ($post->thumbnail == $request->thumbnail && $post->title !== $request->title) {
+
+
+             $str = explode('.', $request->thumbnail);
+             $extn = end($str);
+             $thumbnail = $slug.'.'.$extn;
+
+              $post->thumbnail   =   $thumbnail;
+              Image::make(public_path($path.$request->thumbnail))->resize(500, 350)->save(public_path($path.$thumbnail));
+
+              $old_thumb = $request->thumbnail;
+                if(file_exists($old_thumb)){
+                    unlink($path.$old_thumb);
+                }
+
+          }else{
+
+
+           // if(isset($request->thumbnail)){
+
+                $str = explode(';', $request->thumbnail);
+                $str2 = explode('/', $str[0]);
+                $extn = end($str2);
+                $thumbnail = $slug.'.'.$extn;
+
+                $post->thumbnail   =   $thumbnail;
+                Image::make($request->thumbnail)->resize(500, 350)->save(public_path($path.$thumbnail));
+                $old_thumb = $post->thumbnail;
+                    if(file_exists($path.$old_thumb)){
+                        unlink($path.$old_thumb);
+                    }
+
+          //   }
+
+         }
+
+
+         $post->user_id =   auth()->user()->id;
+         $post->category_id =   $request->category_id;
+         $post->title       =   $request->title;
+         $post->slug        =   $slug;
+         $post->content     =   $request->content;
+
+
+         $post->status      =   $request->status;
+         $updated = $post->save();
+
+       $success = $updated ? true : false;
+       return response()->json(['success'=>$success]);
+
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -118,6 +187,11 @@ class PostController extends Controller
     {
         $post = Post::where('slug', $slug)->first();
         $post->delete();
+        $path = 'admin/media/images/post/';
+            $old_thumb = $post->thumbnail;
+            if(file_exists($path.$old_thumb)){
+                unlink($path.$old_thumb);
+            }
     }
 
      /**
@@ -132,7 +206,13 @@ class PostController extends Controller
         foreach($request->data as $id){
             $post = Post::find($id);
             $post->delete();
+            $path = 'admin/media/images/post/';
+            $old_thumb = $post->thumbnail;
+            if(file_exists($path.$old_thumb)){
+                unlink($path.$old_thumb);
+            }
             $sl++;
+
         }
         $success = $sl > 0 ? true : false;
       return response()->json(['success'=>$success, 'total'=>$sl]);

@@ -63,8 +63,6 @@
                let fields = this;
                this.form.post('/update-category').then(function(response){
 
-                console.log(response);
-
                 toastr.success('Category Update Successfully');
 
                 fields.$router.push('/category');

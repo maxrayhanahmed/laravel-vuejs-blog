@@ -42,3 +42,6 @@ Route::get('/remove-post/{slug}', [App\Http\Controllers\PostController::class, '
 Route::post('/remove-posts', [App\Http\Controllers\PostController::class, 'removeSelectData']);
 Route::post('/posts/change-status', [App\Http\Controllers\PostController::class, 'changeStatus']);
 Route::post('/add-post', [App\Http\Controllers\PostController::class, 'store']);
+
+Route::get('/edit-post/{slug}', [App\Http\Controllers\PostController::class, 'edit']);
+Route::post('/update-post', [App\Http\Controllers\PostController::class, 'update']);
