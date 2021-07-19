@@ -83,8 +83,3 @@
 
         }
 </script>
-<style scoped>
-.card .card-footer button .cancel{
-        text-align: right;
-    }
-</style>

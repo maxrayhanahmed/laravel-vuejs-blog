@@ -23,7 +23,7 @@
                             <select class="form-control" id="category_id" v-model="form.category_id">
                                 <option value="" selected>Select Category</option>
 
-                                <option v-for="category in categories"  :value="category.id">{{category.name}}</option>
+                                <option v-for="category in categories"  :value="category.id" v-bind:key="category.id">{{category.name}}</option>
 
 
                             </select>

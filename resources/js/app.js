@@ -117,10 +117,11 @@ import CKEditor from '@ckeditor/ckeditor5-vue2';
 Vue.use( CKEditor );
 
 
-  Vue.use(Vuex)
+  Vue.use(Vuex);
 
-const store = new Vuex.Store(storeData)
+const store = new Vuex.Store(storeData);
 
+// component for frontend
 
 
  const app = new Vue({

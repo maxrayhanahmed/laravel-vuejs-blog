@@ -8,5 +8,6 @@ import moment from 'moment';
   });
 
   Vue.filter('readMore', function(content, length, dotString){
+
     return content.substring(0, length)+dotString;
   });

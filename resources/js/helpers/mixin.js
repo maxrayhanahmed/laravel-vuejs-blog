@@ -26,6 +26,9 @@ Vue.mixin({
                 .replace(/\-\-+/g, "-")
                 .replace(/^-+/, "")
                 .replace(/-+$/, "");
-            }
+            },
+            readMoreWithMethod(content, length, s){
+                return content.substring(0, length)+s;
+              }
     }
 })

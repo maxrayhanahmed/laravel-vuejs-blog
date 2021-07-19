@@ -14,3 +14,22 @@ const mix = require('laravel-mix');
 mix.js('resources/js/app.js', 'public/js')
     .vue()
     .sass('resources/sass/app.scss', 'public/css');
+
+  /// mix css for frontend
+
+    mix.styles([
+        'resources/sass/frontend/assets/css/bootstrap.css',
+        'resources/sass/frontend/assets/css/style.css',
+    ], 'public/css/all.css');
+
+    /// mix js for frontend
+    mix.js([
+        'resources/sass/frontend/assets/js/jquery.min.js',
+        'resources/sass/frontend/assets/js/responsiveslides.min.js',
+    ], 'public/js/all.js')
+    .vue();
+
+    mix.js('resources/js/app2.js', 'public/js/app2.js')
+    .vue()
+
+    mix.copyDirectory('resources/sass/frontend/assets/images','public/images');

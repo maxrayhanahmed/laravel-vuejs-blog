@@ -11,9 +11,8 @@ class Category extends Model
     protected $fillable = ['name', 'slug', 'status'];
 
 
-   // protected $fillable = ['user_id', 'category_id', 'title', 'content', 'thumbnail', 'status'];
 
     public function posts(){
-        $this->hasMany(Post::class);
+        return $this->hasMany(Post::class, 'category_id', 'id');
     }
 }
